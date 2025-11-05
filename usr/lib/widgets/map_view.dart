@@ -143,7 +143,7 @@ class MapPainter extends CustomPainter {
     // Draw path
     if (path.length > 1) {
       final pathPoints = path.map((point) {
-        return _latLngToOffset(point, bounds, size, center);
+        return _latLngToOffset(point, bounds, size);
       }).toList();
 
       final pathPath = Path();
@@ -156,11 +156,11 @@ class MapPainter extends CustomPainter {
 
     // Draw markers
     if (path.isNotEmpty) {
-      final startPoint = _latLngToOffset(path.first, bounds, size, center);
+      final startPoint = _latLngToOffset(path.first, bounds, size);
       _drawMarker(canvas, startPoint, Colors.green, 'S');
 
       if (path.length > 1) {
-        final endPoint = _latLngToOffset(path.last, bounds, size, center);
+        final endPoint = _latLngToOffset(path.last, bounds, size);
         _drawMarker(canvas, endPoint, Colors.red, 'E');
       }
     }
@@ -259,9 +259,9 @@ class MapPainter extends CustomPainter {
     );
   }
 
-  Offset _latLngToOffset(_Bounds bounds, Size size, Offset center) {
-    final normalizedX = (currentPosition.longitude - bounds.minLon) / (bounds.maxLon - bounds.minLon);
-    final normalizedY = 1 - (currentPosition.latitude - bounds.minLat) / (bounds.maxLat - bounds.minLat);
+  Offset _latLngToOffset(LocationPoint point, _Bounds bounds, Size size) {
+    final normalizedX = (point.longitude - bounds.minLon) / (bounds.maxLon - bounds.minLon);
+    final normalizedY = 1 - (point.latitude - bounds.minLat) / (bounds.maxLat - bounds.minLat);
 
     final x = normalizedX * size.width * zoom + offset.dx;
     final y = normalizedY * size.height * zoom + offset.dy;
